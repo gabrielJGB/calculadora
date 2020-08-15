@@ -78,9 +78,10 @@ body {
 
 @media all and (max-width:800px) {
     .calc-grid {
-        width: 300px
+        width: 92%
     }
     .button{
         cursor: default;
     }
+    * { -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
 }
