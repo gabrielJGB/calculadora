@@ -80,4 +80,7 @@ body {
     .calc-grid {
         width: 300px
     }
+    .button{
+        cursor: default;
+    }
 }
