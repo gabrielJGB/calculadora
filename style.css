@@ -76,10 +76,6 @@ body {
     background-color: #2d7d9a;
 }
 
-div:focus, div:active {
-    outline: none;
-}
-
 @media all and (max-width:800px) {
     .calc-grid {
         margin:0 auto;
