@@ -82,9 +82,16 @@ div:focus, div:active {
 
 @media all and (max-width:800px) {
     .calc-grid {
-        width: 92%
+        width: 100%;
+        margin:0 auto;
+        grid-template-rows: 0.6fr repeat(7,5fr);
+        gap:2px;
+    }
+    .main-display{
+        font-size:45px;
     }
     .button{
+        height: 100%;
         cursor: default;
         outline: none;
     }
