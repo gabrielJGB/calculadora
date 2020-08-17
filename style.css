@@ -6,6 +6,7 @@
 body {
     /* background-color: rgb(76, 106, 122); */
     background-color: #333f4c;
+    overflow: hidden;
 }
 
 .calc-grid {
@@ -82,6 +83,7 @@ body {
         width: 100vw;
         height: 100vh;    
         gap:3px;
+        padding:1px
     }
     .main-display{
         font-size:45px;
