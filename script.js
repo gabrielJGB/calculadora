@@ -2,31 +2,30 @@ const $body = document.querySelector('body');
 const $button = document.querySelectorAll('.button');
 const $main_display = document.querySelector('.main-display');
 const $aux_display = document.querySelector('.aux-display');
-const $sto = document.querySelector('.sto');
 let operator_pressed = false;
 let bracket_pressed = false;
 let function_pressed = false;
 let input_focus = false;
 let result = 0;
-let sto = '0'
+let ans = '0'
 
 add_input_focus_in_event();
 add_input_focus_out_event();
 add_button_key_event();
-add_button_click_event()
+add_button_click_event();
 
 function remove_key_event() {
-    $body.removeEventListener('keypress', key_event)
+    $body.removeEventListener('keypress', key_event);
 }
 function key_event(e) {
     let key = e.key;
-    console.log(key)
+    console.log(key);
     if (key == 'Enter') {
-        key = '='
-        console.log(key)
+        key = '=';
+        console.log(key);
     }
     else if (key == 'Backspace') {
-        key = 'DEL'
+        key = 'DEL';
     }
     check_button_pressed(key);
 }
@@ -53,17 +52,15 @@ function add_button_click_event() {
 }
 
 function add_button_key_event() {
-    $body.addEventListener('keypress', key_event)
+    $body.addEventListener('keypress', key_event);
 }
-
-
 
 //-----------------------------------------------------------
 
 function check_button_pressed(button) {
     let operators = '/*+-=';
     let variable = '1234567890.()';
-    let special = '√^STO 💾';
+    let special = '√^Ans';
 
     if (variable.includes(button)) {
         handle_variable(button);
@@ -85,8 +82,7 @@ function check_button_pressed(button) {
 
     }
     else if (button == 'CL') {
-        sto = '0';
-        $sto.textContent = 'STO';
+        ans = '0';
     }
     else {
     }
@@ -114,7 +110,7 @@ function handle_operator(operator) {
     }
     else if (get_aux_display_value() == '') {
         set_aux_display_value(get_main_display_value() + operator);
-        solve_expression(get_main_display_value())
+        solve_expression(get_main_display_value());
     }
     else if (get_aux_display_value().search('=') != -1) {
         set_aux_display_value(result + operator);
@@ -136,16 +132,8 @@ function handle_special_operator(operator) {
         write_main_display('^');
 
     }
-    else if ('STO 💾'.includes(operator)) {
-
-        if (sto == '0') {
-            sto = get_main_display_value();
-            $sto.textContent = 'STO 💾';
-        }
-        else {
-            set_main_display_value(sto)
-        }
-
+    else if (operator == 'Ans') {
+        write_main_display(ans)
     }
 }
 
@@ -165,7 +153,9 @@ function check_pending_operation() {
 function solve_expression(expression) {
     try {
         result = math.evaluate(expression);
+        ans = result;
         set_main_display_value(result);
+
     }
     catch (err) {
         console.log(err.message)
