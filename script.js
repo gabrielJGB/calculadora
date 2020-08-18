@@ -6,27 +6,59 @@ const $sto = document.querySelector('.sto');
 let operator_pressed = false;
 let bracket_pressed = false;
 let function_pressed = false;
+let input_focus = false;
 let result = 0;
 let sto = '0'
 
-
+add_input_focus_in_event();
+add_input_focus_out_event();
 add_button_key_event();
+add_button_click_event()
 
-function add_button_key_event() {
+function remove_key_event() {
+    $body.removeEventListener('keypress', key_event)
+}
+function key_event(e) {
+    let key = e.key;
+    console.log(key)
+    if (key == 'Enter') {
+        key = '='
+        console.log(key)
+    }
+    else if (key == 'Backspace') {
+        key = 'DEL'
+    }
+    check_button_pressed(key);
+}
+
+function add_input_focus_in_event() {
+    $main_display.addEventListener('focusin', function () {
+        remove_key_event();
+    });
+}
+
+function add_input_focus_out_event() {
+    $main_display.addEventListener('focusout', function () {
+        add_button_key_event();
+    });
+}
+
+function add_button_click_event() {
     for (i = 0; i < $button.length; i++) {
         $button[i].addEventListener('click', function (e) {
             button = e.target.textContent;
             check_button_pressed(button);
         });
     }
-
-    $body.addEventListener('keypress', function (k) {
-        let key = k.key;
-        check_button_pressed(key)
-    });
-
 }
 
+function add_button_key_event() {
+    $body.addEventListener('keypress', key_event)
+}
+
+
+
+//-----------------------------------------------------------
 
 function check_button_pressed(button) {
     let operators = '/*+-=';
@@ -68,25 +100,24 @@ function handle_variable(variable) {
     else if (variable == ')') {
         bracket_pressed = false;
     }
-    // chequeo si antes habia una operacion pendiente
+
     check_pending_operation();
-    // escribo los digitos del numero en main_display 
     write_main_display(variable);
 }
 
 function handle_operator(operator) {
     operator_pressed = true;
-    //si no hay una cuenta pendiente, escribo en aux_display el numero que está en main_display y el signo presionado
-    if (get_aux_display_value() == '') {
+
+    if (bracket_pressed) {
+        write_main_display(operator);
+        operator_pressed = false;
+    }
+    else if (get_aux_display_value() == '') {
         set_aux_display_value(get_main_display_value() + operator);
         solve_expression(get_main_display_value())
     }
     else if (get_aux_display_value().search('=') != -1) {
         set_aux_display_value(result + operator);
-    }
-    else if (bracket_pressed) {
-        write_main_display(operator);
-        operator_pressed = false;
     }
     else {
         write_aux_display(get_main_display_value());
@@ -119,21 +150,27 @@ function handle_special_operator(operator) {
 }
 
 function check_pending_operation() {
-    // chequeo si antes de presionar el numero habia una operacion pendiente
+
     if (operator_pressed) {
-        //si se esta empezando resolver una nueva cuenta, limpio el aux_display
+
         if (get_aux_display_value().search('=') != -1) {
             set_aux_display_value('');
         }
-        // limpio el main_display y escribo el siguiente operando
+
         set_main_display_value('');
         operator_pressed = false;
     }
 }
 
 function solve_expression(expression) {
-    result = math.evaluate(expression);
-    set_main_display_value(result);
+    try {
+        result = math.evaluate(expression);
+        set_main_display_value(result);
+    }
+    catch (err) {
+        console.log(err.message)
+        set_main_display_value('Error')
+    }
 }
 
 function get_aux_display_value() {
