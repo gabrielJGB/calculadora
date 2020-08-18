@@ -19,7 +19,6 @@ function remove_key_event() {
 }
 function key_event(e) {
     let key = e.key;
-    console.log(key);
     if (key == 'Enter') {
         key = '=';
         console.log(key);
