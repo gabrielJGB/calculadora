@@ -14,6 +14,10 @@ add_input_focus_out_event();
 add_button_key_event();
 add_button_click_event();
 
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js");
+}
+
 function remove_key_event() {
     $body.removeEventListener('keypress', key_event);
 }
