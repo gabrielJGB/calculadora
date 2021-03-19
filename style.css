@@ -19,6 +19,7 @@ body {
     background-color: #1f1f1f;
     padding: 5px;
     box-shadow: 2px 2px 8px black;
+    overflow: hidden;
 }
 
 .aux-display {
@@ -83,7 +84,8 @@ body {
         width: 100vw;
         height: 100vh;    
         gap:3px;
-        padding:1px
+        padding:1px;
+        overflow: hidden;
     }
     .main-display{
         font-size:45px;
